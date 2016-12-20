@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http;
 using BLL.Interfaces;
 using System.Threading;
 
@@ -6,24 +7,16 @@ namespace BLL.Infrastructure
 {
     public class Worker
     {
-        private static Queue<ITaskAction> queue;
-
-        private static ReaderWriterLockSlim lockSlim;
-
-        public static Worker Instance { get; }
-
-        private Worker()
+        private readonly Queue<ITaskAction> queue;
+        private readonly ReaderWriterLockSlim lockSlim;
+        
+        public Worker()
         {
             queue = new Queue<ITaskAction>();
             lockSlim = new ReaderWriterLockSlim();
         }
 
-        static Worker()
-        {
-            Instance = new Worker();
-        }
-
-        public static void AddWork(ITaskAction action)
+        public void AddWork(ITaskAction action)
         {
             lockSlim.EnterWriteLock();
             try
@@ -54,7 +47,13 @@ namespace BLL.Infrastructure
                     lockSlim.ExitWriteLock();
                 }
 
-                task?.Execute();
+                try
+                {
+                    task?.Execute();
+                }
+                catch (HttpRequestException)
+                {
+                }
             }
         }
     }

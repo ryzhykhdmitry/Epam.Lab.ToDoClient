@@ -5,17 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.Actions;
+using BLL.Interfaces;
 using BLL.Interfaces.DTO;
 using BLL.Interfaces.Repository;
-using BLL.Mappers;
 
 namespace BLL.Infrastructure
 {
-    public static class WorkerInitializer
+    public class WorkerManager
     {
-        public static void Initialize()
+        private static readonly Dictionary<int, Worker> workers;
+
+        static WorkerManager()
         {
-            Task.Run(() => Worker.Instance.Run());
+            workers = new Dictionary<int, Worker>();
+        }
+
+        public static void AddWork(ITaskAction taskAction, int userId)
+        {
+            if (workers.ContainsKey(userId))
+            {
+                workers[userId].AddWork(taskAction);
+            }
+            else
+            {
+                var worker = new Worker();
+
+                worker.AddWork(taskAction);
+
+                Task.Run(() => worker.Run());
+
+                workers.Add(userId, worker);
+            }
         }
 
         public static void ActionsInitialize(IActionRepository actionRepository, ITaskRepository repository)
@@ -26,18 +46,20 @@ namespace BLL.Infrastructure
             {
                 foreach (var bllAction in result)
                 {
+                    BllTask task = repository.GetById(bllAction.TaskId);
+
                     switch ((BllActionEnum)bllAction.ActionId)
                     {
                         case BllActionEnum.Add:
-                            Worker.AddWork(new AddTask(repository.GetById(bllAction.TaskId), repository, bllAction.Id, actionRepository));
+                            AddWork(new AddTask(task, repository, bllAction.Id, actionRepository), task.UserId);
                             break;
 
                         case BllActionEnum.Delete:
-                            Worker.AddWork(new DeleteTask(bllAction.TaskId, repository, bllAction.Id, actionRepository));
+                            AddWork(new DeleteTask(task.Id, repository, bllAction.Id, actionRepository), task.UserId);
                             break;
 
                         case BllActionEnum.Update:
-                            Worker.AddWork(new UpdateTask(bllAction.TaskId, repository, bllAction.Id, actionRepository));
+                            AddWork(new UpdateTask(task.Id, repository, bllAction.Id, actionRepository), task.UserId);
                             break;
 
                         default:

@@ -30,9 +30,9 @@ namespace BLL.Actions
 
             ToDoService.DeleteItem(result.ToDoId ?? 0);
 
-            repository.Delete(result.Id);
-
             actionRepository.Delete(actionId);
+
+            repository.Delete(result.Id);
         }
     }
 }

@@ -80,7 +80,7 @@
     <Compile Include="Actions\UpdateTask.cs" />
     <Compile Include="Concrete\TaskRepository.cs" />
     <Compile Include="Infrastructure\Worker.cs" />
-    <Compile Include="Infrastructure\WorkerInitializer.cs" />
+    <Compile Include="Infrastructure\WorkerManager.cs" />
     <Compile Include="Interfaces\DTO\BllActionEnum.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\DTO\BllAction.cs" />

@@ -26,7 +26,7 @@ namespace ToDoClient.Controllers
 
         static ToDosController()
         {
-            WorkerInitializer.ActionsInitialize(actionRepository, taskRepo);
+            WorkerManager.ActionsInitialize(actionRepository, taskRepo);
         }
 
         /// <summary>

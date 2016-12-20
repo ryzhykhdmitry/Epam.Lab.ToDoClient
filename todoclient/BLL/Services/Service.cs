@@ -40,7 +40,7 @@ namespace BLL.Services
                 TaskId = result.Id
             });
 
-            Worker.AddWork(new AddTask(result, repository, action.Id, actionRepository));
+            WorkerManager.AddWork(new AddTask(result, repository, action.Id, actionRepository), result.UserId);
 
             return result;
         }
@@ -59,7 +59,7 @@ namespace BLL.Services
                 TaskId = item.Id
             });
 
-            Worker.AddWork(new DeleteTask(item.Id, repository, action.Id, actionRepository));
+            WorkerManager.AddWork(new DeleteTask(item.Id, repository, action.Id, actionRepository), item.UserId);
         }
 
         public void Update(BllTask item)
@@ -74,7 +74,7 @@ namespace BLL.Services
                 TaskId = item.Id
             });
 
-            Worker.AddWork(new UpdateTask(item.Id, repository, action.Id, actionRepository));
+            WorkerManager.AddWork(new UpdateTask(item.Id, repository, action.Id, actionRepository), item.UserId);
         }
 
         public IEnumerable<BllTask> GetAll()
@@ -90,6 +90,11 @@ namespace BLL.Services
         public IEnumerable<BllTask> GetByUserId(int userId)
         {
             var result = repository.GetAllByUserId(userId).Where(t => !t.IsDeleted);
+
+            if (!result.Any())
+            {
+                result = ToDoService.GetItems(userId);
+            }
 
             return result;
         }

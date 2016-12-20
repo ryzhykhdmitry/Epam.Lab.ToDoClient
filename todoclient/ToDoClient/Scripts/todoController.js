@@ -8,6 +8,10 @@
             initialize();
 
             $scope.addItem = function () {
+                if (!$scope.name) {
+                    return;
+                }
+
                 var obj = {
                     Name: $scope.name,
                     IsCompleted: $scope.isCompleted
