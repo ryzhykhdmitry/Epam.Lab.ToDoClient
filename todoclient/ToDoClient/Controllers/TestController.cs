@@ -22,7 +22,7 @@ namespace todoclient.Controllers
         // GET: Test
         public ActionResult Index()
         {
-            var result = taskRepository.GetById(1).GetTaskViewEntity();
+            var result = taskRepository.GetById(2).GetTaskViewEntity();
             
             return View("Test", result);
         }

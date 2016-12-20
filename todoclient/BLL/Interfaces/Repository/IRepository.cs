@@ -13,7 +13,7 @@ namespace BLL.Interfaces.Repository
 
         TEntity GetById(int key);
 
-        void Create(TEntity e);
+        TEntity Create(TEntity e);
 
         void Delete(int id);
 
