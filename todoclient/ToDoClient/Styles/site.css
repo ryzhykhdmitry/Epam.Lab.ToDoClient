@@ -13,3 +13,11 @@
 .my-form{
     margin-top: 20px;
 }
+
+.no-loader{
+    display:none;
+}
+
+.loader{
+    display:inline-block;
+}

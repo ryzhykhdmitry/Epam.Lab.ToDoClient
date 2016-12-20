@@ -21,7 +21,7 @@ namespace todoclient.Controllers
         // GET: Test
         public IEnumerable Index()
         {
-            var result = taskRepository.GetAll().FirstOrDefault(); 
+            var result = taskRepository.GetAll(); 
             return result;
         }
 

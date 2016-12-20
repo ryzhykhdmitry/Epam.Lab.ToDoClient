@@ -12,7 +12,6 @@
     <script src="Scripts/todoController.js"></script>
 </head>
 <body ng-controller="TodoController">
-
     <div class="container">
         <div class="row">
             <form class="form-inline my-form">
@@ -25,7 +24,8 @@
                     <label class="sr-only" for="exampleInputPassword3">Password</label>
                     <input type="text" class="form-control" id="exampleInputEmail3" ng-model="name" placeholder="Todo..." />
                 </div>
-                <input type="button" class="btn btn-success" ng-click="addItem()" value="Add" />
+                <input type="button" ng-show="!isLoading" class="btn btn-success" ng-click="addItem()" value="Add" />
+                <div id="addLoader" ng-show="isLoading" class="loader"><img src="/Content/loader2.gif" alt="Loader" /></div>
             </form>
         </div>
         <div class="row">
@@ -33,7 +33,7 @@
                 <ul class="list-unstyled" ng-repeat="todo in items track by $index">
                     <li class="ui-state-default">
                         <label class="checkbox">
-                            <input type="checkbox" ng-model="todo.isCompleted" ng-change=""/>
+                            <input type="checkbox" ng-model="todo.isCompleted" ng-change="" />
                         </label>
                         {{todo.name}}
                         <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeItem($index, todo)">

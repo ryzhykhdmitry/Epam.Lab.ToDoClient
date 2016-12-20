@@ -2,6 +2,7 @@
         .controller("TodoController", ["$scope", "TodoItemsService", function ($scope, service) {
 
             $scope.items = [];
+            $scope.isLoading = true;
             clearParams();
 
             initialize();
@@ -14,8 +15,11 @@
 
                 clearParams();
 
+                $scope.isLoading = true;
+
                 service.addItem(obj).then(function (response) {
                     $scope.items.push(cast(response.data));
+                    $scope.isLoading = false;
                 });
             };
 
@@ -57,7 +61,8 @@
                             $scope.items.push(obj);
                         }
                     }
-                });
 
+                    $scope.isLoading = false;
+                });
             };
         }]);
