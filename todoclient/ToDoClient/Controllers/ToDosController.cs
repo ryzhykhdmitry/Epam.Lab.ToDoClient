@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using BLL.Interfaces;
+using BLL.Interfaces.DTO;
+using BLL.Services;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
-using ToDoClient.Models;
+using todoclient.Infrastructure.Mappers;
+using todoclient.Models;
 using ToDoClient.Services;
 
 namespace ToDoClient.Controllers
@@ -10,27 +15,27 @@ namespace ToDoClient.Controllers
     /// </summary>
     public class ToDosController : ApiController
     {
-        private readonly ToDoService todoService = new ToDoService();
+        private readonly IService<BllTask> todoService = new Service();
         private readonly UserService userService = new UserService();
 
         /// <summary>
         /// Returns all todo-items for the current user.
         /// </summary>
         /// <returns>The list of todo-items.</returns>
-        public IList<ToDoItemViewModel> Get()
+        public IList<TaskViewModel> Get()
         {
             var userId = userService.GetOrCreateUser();
-            return todoService.GetItems(userId);
+            return todoService.GetByUserId(userId).Select(t=>t.GetTaskViewEntity()).ToList();
         }
 
         /// <summary>
         /// Updates the existing todo-item.
         /// </summary>
         /// <param name="todo">The todo-item to update.</param>
-        public void Put(ToDoItemViewModel todo)
+        public void Put(TaskViewModel todo)
         {
             todo.UserId = userService.GetOrCreateUser();
-            todoService.UpdateItem(todo);
+            todoService.Update(todo.GetBllEntity());
         }
 
         /// <summary>
@@ -39,17 +44,17 @@ namespace ToDoClient.Controllers
         /// <param name="id">The todo item identifier.</param>
         public void Delete(int id)
         {
-            todoService.DeleteItem(id);
+            todoService.Delete(id);
         }
 
         /// <summary>
         /// Creates a new todo-item.
         /// </summary>
         /// <param name="todo">The todo-item to create.</param>
-        public void Post(ToDoItemViewModel todo)
+        public void Post(TaskViewModel todo)
         {
             todo.UserId = userService.GetOrCreateUser();
-            todoService.CreateItem(todo);
+            todoService.Add(todo.GetBllEntity());
         }
     }
 }
