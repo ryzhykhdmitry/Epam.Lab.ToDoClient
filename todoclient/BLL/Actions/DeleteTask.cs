@@ -10,13 +10,18 @@ namespace BLL.Actions
     {
         private readonly int itemId;
         private readonly ITaskRepository repository;
+        private readonly int actionId;
+        private readonly IActionRepository actionRepository;
 
-        public DeleteTask(int itemId, ITaskRepository repository)
+        public DeleteTask(int itemId, ITaskRepository repository, int actionId, IActionRepository actionRepository)
         {
             if (repository == null) throw new ArgumentNullException(nameof(repository));
+            if (actionRepository == null) throw new ArgumentNullException(nameof(actionRepository));
 
             this.itemId = itemId;
             this.repository = repository;
+            this.actionId = actionId;
+            this.actionRepository = actionRepository;
         }
 
         public void Execute()
@@ -26,6 +31,8 @@ namespace BLL.Actions
             ToDoService.DeleteItem(result.ToDoId ?? 0);
 
             repository.Delete(result.Id);
+
+            actionRepository.Delete(actionId);
         }
     }
 }

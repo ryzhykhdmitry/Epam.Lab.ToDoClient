@@ -12,14 +12,19 @@ namespace BLL.Actions
     {
         private readonly BllTask item;
         private readonly ITaskRepository repository;
+        private readonly int actionId;
+        private readonly IActionRepository actionRepository;
 
-        public AddTask(BllTask item, ITaskRepository repository)
+        public AddTask(BllTask item, ITaskRepository repository, int actionId, IActionRepository actionRepository)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
             if (repository == null) throw new ArgumentNullException(nameof(repository));
+            if (actionRepository == null) throw new ArgumentNullException(nameof(actionRepository));
 
             this.item = item;
             this.repository = repository;
+            this.actionId = actionId;
+            this.actionRepository = actionRepository;
         }
 
         public void Execute()
@@ -32,6 +37,7 @@ namespace BLL.Actions
             task.ToDoId = result.LastOrDefault()?.ToDoId;
             
             repository.Update(task);
+            actionRepository.Delete(actionId);
         }
     }
 }

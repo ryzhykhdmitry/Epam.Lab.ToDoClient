@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using BLL.Concrete;
+using BLL.Infrastructure;
 using BLL.Interfaces.Repository;
 using todoclient.Infrastructure.Mappers;
 using todoclient.Models;
@@ -22,6 +23,11 @@ namespace ToDoClient.Controllers
 
         private readonly IService<BllTask> todoService = new Service(taskRepo, actionRepository);
         private readonly UserService userService = new UserService();
+
+        static ToDosController()
+        {
+            WorkerInitializer.ActionsInitialize(actionRepository, taskRepo);
+        }
 
         /// <summary>
         /// Returns all todo-items for the current user.

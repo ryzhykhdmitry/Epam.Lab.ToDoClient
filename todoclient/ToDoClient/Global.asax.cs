@@ -16,7 +16,7 @@ namespace todoclient
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Task.Run(() => Worker.Instance.Run());
+            WorkerInitializer.Initialize();
         }
     }
 }

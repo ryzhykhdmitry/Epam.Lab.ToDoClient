@@ -33,7 +33,14 @@ namespace BLL.Services
             if (item == null) throw new ArgumentNullException(nameof(item));
 
             BllTask result = repository.Create(item);
-            Worker.AddWork(new AddTask(result, repository));
+
+            BllAction action = actionRepository.Create(new BllAction
+            {
+                ActionId = (int)BllActionEnum.Add,
+                TaskId = item.Id
+            });
+
+            Worker.AddWork(new AddTask(result, repository, action.Id, actionRepository));
 
             return result;
         }
@@ -46,7 +53,13 @@ namespace BLL.Services
 
             repository.Update(item);
 
-            Worker.AddWork(new DeleteTask(item.Id, repository));
+            BllAction action = actionRepository.Create(new BllAction
+            {
+                ActionId = (int)BllActionEnum.Delete,
+                TaskId = item.Id
+            });
+
+            Worker.AddWork(new DeleteTask(item.Id, repository, action.Id, actionRepository));
         }
 
         public void Update(BllTask item)
@@ -54,7 +67,14 @@ namespace BLL.Services
             if (item == null) throw new ArgumentNullException(nameof(item));
 
             repository.Update(item);
-            Worker.AddWork(new UpdateTask(item.Id, repository));
+
+            BllAction action = actionRepository.Create(new BllAction
+            {
+                ActionId = (int)BllActionEnum.Update,
+                TaskId = item.Id
+            });
+
+            Worker.AddWork(new UpdateTask(item.Id, repository, action.Id, actionRepository));
         }
 
         public IEnumerable<BllTask> GetAll()
