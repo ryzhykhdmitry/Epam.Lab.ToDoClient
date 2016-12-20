@@ -79,7 +79,6 @@
     <Compile Include="Actions\DeleteTask.cs" />
     <Compile Include="Actions\UpdateTask.cs" />
     <Compile Include="Concrete\TaskRepository.cs" />
-    <Compile Include="Infrastructure\QueueTask.cs" />
     <Compile Include="Infrastructure\Worker.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\DTO\BllAction.cs" />

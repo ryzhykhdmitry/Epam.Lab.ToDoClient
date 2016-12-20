@@ -7,14 +7,13 @@ using BLL.Interfaces.DTO;
 using BLL.Interfaces.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
     public class Service : IService<BllTask>
     {
         private readonly ITaskRepository repository;
-        private IActionRepository actionRepository;
+        private readonly IActionRepository actionRepository;
 
         public Service() : this(new TaskRepository(), new ActionRepository())
         {
@@ -27,15 +26,13 @@ namespace BLL.Services
 
             this.repository = repository;
             this.actionRepository = actionRepository;
-
-            Task.Run(() => Worker.Instance.Run());
         }
 
         public BllTask Add(BllTask item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
-            var result = repository.Create(item);
+            BllTask result = repository.Create(item);
             Worker.AddWork(new AddTask(result, repository));
 
             return result;
@@ -43,13 +40,13 @@ namespace BLL.Services
 
         public void Delete(int id)
         {
-            var item = repository.GetById(id);
+            BllTask item = repository.GetById(id);
 
             item.IsDeleted = true;
 
             repository.Update(item);
 
-            Worker.AddWork(new DeleteTask(item, repository));
+            Worker.AddWork(new DeleteTask(item.Id, repository));
         }
 
         public void Update(BllTask item)
@@ -57,7 +54,7 @@ namespace BLL.Services
             if (item == null) throw new ArgumentNullException(nameof(item));
 
             repository.Update(item);
-            Worker.AddWork(new UpdateTask(item, repository));
+            Worker.AddWork(new UpdateTask(item.Id, repository));
         }
 
         public IEnumerable<BllTask> GetAll()
