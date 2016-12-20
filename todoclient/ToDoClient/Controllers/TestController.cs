@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections;
+using todoclient.Infrastructure.Mappers;
 
 namespace todoclient.Controllers
 {
@@ -19,10 +20,11 @@ namespace todoclient.Controllers
             this.taskRepository = new TaskRepository(new ToDoClientModel());
         }
         // GET: Test
-        public IEnumerable Index()
+        public ActionResult Index()
         {
-            var result = taskRepository.GetAll(); 
-            return result;
+            var result = taskRepository.GetById(1).GetTaskViewEntity();
+            
+            return View("Test", result);
         }
 
         // GET: Test/Details/5
