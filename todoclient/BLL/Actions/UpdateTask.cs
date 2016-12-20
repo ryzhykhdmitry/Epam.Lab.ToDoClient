@@ -20,8 +20,8 @@ namespace BLL.Actions
         {
             var result = repository.GetById(item.Id);
 
-            result.IsCompleted = item.IsCompleted;
-            result.Name = item.Name;
+            //result.IsCompleted = item.IsCompleted;
+            //result.Name = item.Name;
             
             result = repository.Update(result);
 

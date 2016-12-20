@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BLL.Interfaces.DTO;
 using System.Data.Entity;
 using BLL.Mappers;
+using ORM;
 
 namespace BLL.Concrete
 {
@@ -16,6 +17,7 @@ namespace BLL.Concrete
 
         public ActionRepository()
         {
+            context = new ToDoClientModel();
         }
 
         public ActionRepository(DbContext dbContext)
@@ -55,7 +57,7 @@ namespace BLL.Concrete
             throw new NotImplementedException();
         }
 
-        public void Update(BllAction entity)
+        public BllAction Update(BllAction entity)
         {
             throw new NotImplementedException();
         }

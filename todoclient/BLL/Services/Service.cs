@@ -12,17 +12,17 @@ namespace BLL.Services
 {
     public class Service : IService<BllTask>
     {
-        private static ITaskRepository repository;
-        private static IRepository<BllTask> actionsRepository;
+        private ITaskRepository repository;
+        private IActionRepository actionsRepository;
 
-        public Service() : this(new TaskRepository(), default(IRepository<BllTask>))
+        public Service() : this(new TaskRepository(), new ActionRepository())
         {
         }
 
-        public Service(ITaskRepository repository, IRepository<BllTask> actionsRepository)
+        public Service(ITaskRepository repository, IActionRepository actionsRepository)
         {
-            Service.repository = repository;
-            Service.actionsRepository = actionsRepository;
+            this.repository = repository;
+            this.actionsRepository = actionsRepository;
 
             Task.Run(() => Worker.Instance.Run());
         }
@@ -48,6 +48,7 @@ namespace BLL.Services
 
         public void Update(BllTask item)
         {
+            repository.Update(item);
             Worker.AddWork(new UpdateTask(item, repository));
         }
 
