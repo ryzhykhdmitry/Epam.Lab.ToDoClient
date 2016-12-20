@@ -19,6 +19,7 @@
 
                 service.addItem(obj).then(function (response) {
                     $scope.items.push(cast(response.data));
+
                     $scope.isLoading = false;
                 });
             };
