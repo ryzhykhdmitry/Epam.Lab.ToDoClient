@@ -37,7 +37,7 @@ namespace BLL.Services
             BllAction action = actionRepository.Create(new BllAction
             {
                 ActionId = (int)BllActionEnum.Add,
-                TaskId = item.Id
+                TaskId = result.Id
             });
 
             Worker.AddWork(new AddTask(result, repository, action.Id, actionRepository));
