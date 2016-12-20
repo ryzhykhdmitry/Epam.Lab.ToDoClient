@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BLL.Interfaces.DTO;
 using BLL.Mappers;
+using ORM;
 
 namespace BLL.Concrete
 {
@@ -16,13 +17,14 @@ namespace BLL.Concrete
 
         public TaskRepository()
         {
+            context = new ToDoClientModel();
         }
 
         public TaskRepository(DbContext dbContext)
         {
             if (dbContext == null)
             {
-                throw new ArgumentNullException("entitiesContex");
+                throw new ArgumentNullException("entitiesContext");
             }
             this.context = dbContext;
         }
@@ -52,7 +54,7 @@ namespace BLL.Concrete
         public IEnumerable<BllTask> GetAllByUserId(int id)
         {
             var tasks = context.Set<ORM.Task>().Where(a => a.UserId == id);
-            return tasks.Select(u => u.GetBllEntity());
+            return tasks.AsEnumerable().Select(u => u.GetBllEntity());
         }
 
         public BllTask GetById(int key)
