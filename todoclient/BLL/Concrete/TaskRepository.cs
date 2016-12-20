@@ -33,9 +33,14 @@ namespace BLL.Concrete
             context.SaveChanges();
         }
 
-        public void Delete(BllTask e)
+        public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var article = context.Set<ORM.Task>().Where(a => a.Id == id).FirstOrDefault();
+            if (article != null)
+            {
+                context.Set<ORM.Task>().Remove(article);
+            }
+            context.SaveChanges();
         }
 
         public IEnumerable<BllTask> GetAll()
@@ -44,14 +49,32 @@ namespace BLL.Concrete
             return task.Select(u => u.GetBllEntity());
         }
 
+        public IEnumerable<BllTask> GetAllByUserId(int id)
+        {
+            var tasks = context.Set<ORM.Task>().Where(a => a.UserId == id);
+            return tasks.Select(u => u.GetBllEntity());
+        }
+
         public BllTask GetById(int key)
         {
-            throw new NotImplementedException();
+            var task = context.Set<ORM.Task>().Where(a => a.Id == key).FirstOrDefault();
+            if (task == null)
+            {
+                return null;
+            }
+            return task.GetBllEntity();
         }
 
         public void Update(BllTask entity)
         {
-            throw new NotImplementedException();
+            var task = context.Set<ORM.Task>().Where(a => a.Id == entity.Id).FirstOrDefault();
+
+            context.Set<ORM.Task>().Attach(task);
+            if (entity.ToDoId != null) task.ToDoId = entity.ToDoId;
+            task.IsCompleted = entity.IsCompleted;
+            if (entity.Name != null) task.Name = entity.Name;
+            
+            context.SaveChanges();
         }
     }
 }

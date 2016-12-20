@@ -21,7 +21,7 @@ namespace todoclient.Infrastructure.Mappers
             };
         }
 
-        public static TaskViewModel GetORMEntity(this BllTask bllEntity)
+        public static TaskViewModel GetTaskViewEntity(this BllTask bllEntity)
         {
             return new TaskViewModel()
             {

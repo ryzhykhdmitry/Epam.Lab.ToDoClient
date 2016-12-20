@@ -1,0 +1,41 @@
+﻿@model todoclient.Models.TaskViewModel
+@{
+    //ViewBag.Title = "Article";
+}
+
+<div class="col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6 article" id="article">
+    <div id="title">
+        <p>@Model.Name</p>
+       
+
+        @*<div id="info">
+            <span id="date">@Model.PublicationDate</span>
+            <span id="user">
+                <img src="/Content/images/icon_user_gray.png" />
+
+                @Html.ActionLink(@Model.User.UserName, "ViewBloggerArticles", new { controller = "Article", bloggerId = @Model.AuthorId }, new { @title = "User's blog" })
+            </span>
+
+            @if (HttpContext.Current.User.IsInRole("admin") || (Request.IsAuthenticated && Convert.ToInt32(Profile.GetPropertyValue("Id")) == Model.AuthorId))
+            {
+                <span class="pull-right">
+                    <img src="/Content/images/icon_edit.png" /> @Html.ActionLink("Edit", "UpdateArticle", new { controller = "Article", articleId = @Model.Id })
+                    <img src="/Content/images/icon_delete.png" /> @Html.ActionLink("Delete", "DeleteArticle", new { controller = "Article", articleId = @Model.Id })
+                </span>
+            }
+
+        </div>
+    </div>
+    <br />
+    <div id="content">@Model.Text</div>
+    <div class="pull-right">Views @Model.CountLikes</div>
+
+    <div class="comments-all" id="all_comments">
+        @Html.Action("GetComments", new { controller = "Comment", articleId = @Model.Id })
+    </div>
+    @if (Request.IsAuthenticated)
+    {
+        @Html.Action("AddComment", new { controller = "Comment", articleId = Model.Id })
+    }*@
+</div>
+    </div>

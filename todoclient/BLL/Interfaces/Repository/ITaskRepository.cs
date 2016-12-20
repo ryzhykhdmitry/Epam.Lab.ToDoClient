@@ -9,5 +9,7 @@ namespace BLL.Interfaces.Repository
 {
     public interface ITaskRepository : IRepository<BllTask>
     {
+        IEnumerable<BllTask> GetAllByUserId(int id);
+
     }
 }
