@@ -8,13 +8,17 @@ namespace ToDoClient.Models
     public class ToDoItemViewModel
     {
         /// <summary>
+        /// Repository identifier.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets to do identifier.
         /// </summary>
         /// <value>
         /// To do identifier.
         /// </value>
         public int ToDoId { get; set; }
-
 
         /// <summary>
         /// Gets or sets the user identifier.

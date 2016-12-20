@@ -41,6 +41,7 @@ namespace ToDoClient.Services
         {
             var response = httpClient.PostAsJsonAsync(serviceApiUrl + CreateUrl, userName).Result;
             response.EnsureSuccessStatusCode();
+
             return response.Content.ReadAsAsync<int>().Result;
         }
 

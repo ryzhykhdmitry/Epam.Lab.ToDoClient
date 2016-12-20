@@ -1,32 +1,49 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="TodoApp">
 <head>
     <title>ToDo list</title>
-    <meta charset="utf-8"/>
-    
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="Content/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="Styles/site.css">
 
-    <script src="Scripts/jquery-3.1.0.js" language="javascript"></script>
-    <script src="Scripts/todo.js" language="javascript"></script>
+    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/todoService.js"></script>
+    <script src="Scripts/todoController.js"></script>
 </head>
-<body>
-    <table id="tasks">
-        <thead>
-            <tr>
-                <th>Completed</th>
-                <th>Task</th>
-                <th>Actions</th>
-            </tr>
-            <!-- The row for creating new items. -->
-            <tr id="new">
-                <td><input type='checkbox' id="newCompleted" /></td>
-                <td><input type='text' id="newName" /></td>
-                <td><input type='button' id="newCreate" value='Create' /></td>
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-    </table>
+<body ng-controller="TodoController">
+
+    <div class="container">
+        <div class="row">
+            <form class="form-inline my-form">
+                <div class="form-group">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-model="isCompleted" />
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="exampleInputPassword3">Password</label>
+                    <input type="text" class="form-control" id="exampleInputEmail3" ng-model="name" placeholder="Todo..." />
+                </div>
+                <input type="button" class="btn btn-success" ng-click="addItem()" value="Add" />
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-md-4 todolist">
+                <ul class="list-unstyled" ng-repeat="todo in items track by $index">
+                    <li class="ui-state-default">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="todo.isCompleted" ng-change=""/>
+                        </label>
+                        {{todo.name}}
+                        <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeItem($index, todo)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
