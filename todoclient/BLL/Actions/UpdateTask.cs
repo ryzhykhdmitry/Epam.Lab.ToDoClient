@@ -8,24 +8,21 @@ namespace BLL.Actions
 {
     public class UpdateTask : ITaskAction
     {
-        private readonly BllTask item;
+        private readonly int itemId;
         private readonly ITaskRepository repository;
 
-        public UpdateTask(BllTask item, ITaskRepository repository)
+        public UpdateTask(int itemId, ITaskRepository repository)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
             if (repository == null) throw new ArgumentNullException(nameof(repository));
 
-            this.item = item;
+            this.itemId = itemId;
             this.repository = repository;
         }
 
         public void Execute()
         {
-            var result = repository.GetById(item.Id);
+            BllTask result = repository.GetById(itemId);
             
-            result = repository.Update(result);
-
             ToDoService.UpdateItem(result);
         }
     }

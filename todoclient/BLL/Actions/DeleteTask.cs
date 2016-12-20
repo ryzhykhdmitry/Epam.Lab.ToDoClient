@@ -8,21 +8,20 @@ namespace BLL.Actions
 {
     public class DeleteTask : ITaskAction
     {
-        private readonly BllTask item;
+        private readonly int itemId;
         private readonly ITaskRepository repository;
 
-        public DeleteTask(BllTask item, ITaskRepository repository)
+        public DeleteTask(int itemId, ITaskRepository repository)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
             if (repository == null) throw new ArgumentNullException(nameof(repository));
 
-            this.item = item;
+            this.itemId = itemId;
             this.repository = repository;
         }
 
         public void Execute()
         {
-            var result = repository.GetById(item.Id);
+            BllTask result = repository.GetById(itemId);
 
             ToDoService.DeleteItem(result.ToDoId ?? 0);
 

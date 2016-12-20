@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using BLL.Interfaces;
 using BLL.Interfaces.DTO;
 using BLL.Interfaces.Repository;
@@ -24,11 +25,13 @@ namespace BLL.Actions
         public void Execute()
         {
             ToDoService.CreateItem(item);
-            var result = ToDoService.GetItems(item.UserId);
+            IList<BllTask> result = ToDoService.GetItems(item.UserId);
 
-            item.ToDoId = result.LastOrDefault()?.ToDoId;
+            BllTask task = repository.GetById(item.Id);
 
-            repository.Update(item);
+            task.ToDoId = result.LastOrDefault()?.ToDoId;
+            
+            repository.Update(task);
         }
     }
 }
