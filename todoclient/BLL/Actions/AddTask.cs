@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using System;
+using BLL.Interfaces;
 using BLL.Interfaces.DTO;
 using BLL.Interfaces.Repository;
 using BLL.Services;
@@ -13,6 +14,9 @@ namespace BLL.Actions
 
         public AddTask(BllTask item, ITaskRepository repository)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
+
             this.item = item;
             this.repository = repository;
         }
@@ -22,7 +26,7 @@ namespace BLL.Actions
             ToDoService.CreateItem(item);
             var result = ToDoService.GetItems(item.UserId);
 
-            item.ToDoId = result.LastOrDefault().ToDoId;
+            item.ToDoId = result.LastOrDefault()?.ToDoId;
 
             repository.Update(item);
         }

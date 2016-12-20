@@ -2,12 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BLL.Interfaces.DTO;
 using System.Data.Entity;
 using BLL.Mappers;
 using ORM;
+using Action = ORM.Action;
 
 namespace BLL.Concrete
 {
@@ -24,42 +23,45 @@ namespace BLL.Concrete
         {
             if (dbContext == null)
             {
-                throw new ArgumentNullException("entitiesContex");
+                throw new ArgumentNullException(nameof(dbContext));
             }
-            this.context = dbContext;
+            context = dbContext;
         }
 
         public BllAction Create(BllAction e)
         {
-            var result = context.Set<ORM.Action>().Add(e.GetORMEntity());
+            if (e == null) throw new ArgumentNullException(nameof(e));
+
+            var result = context.Set<Action>().Add(e.GetOrmEntity());
             context.SaveChanges();
+
             return result.GetBllEntity();
         }
 
         public void Delete(int id)
         {
-            var action = context.Set<ORM.Action>().Where(a => a.Id == id).FirstOrDefault();
+            var action = context.Set<Action>().FirstOrDefault(a => a.Id == id);
             if (action != null)
             {
-                context.Set<ORM.Action>().Remove(action);
+                context.Set<Action>().Remove(action);
             }
             context.SaveChanges();
         }
 
         public IEnumerable<BllAction> GetAll()
         {
-            var task = context.Set<ORM.Action>().ToList();
+            var task = context.Set<Action>().ToList();
             return task.Select(u => u.GetBllEntity());
         }
 
         public BllAction GetById(int key)
         {
-            throw new NotImplementedException();
+            return new BllAction();
         }
 
         public BllAction Update(BllAction entity)
         {
-            throw new NotImplementedException();
+            return entity;
         }
     }
 }

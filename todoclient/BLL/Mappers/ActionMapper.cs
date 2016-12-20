@@ -19,7 +19,7 @@ namespace BLL.Mappers
             };
         }
 
-        public static ORM.Action GetORMEntity(this BllAction bllEntity)
+        public static ORM.Action GetOrmEntity(this BllAction bllEntity)
         {
             return new ORM.Action()
             {

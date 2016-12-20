@@ -1,4 +1,5 @@
-﻿using BLL.Actions;
+﻿using System;
+using BLL.Actions;
 using BLL.Concrete;
 using BLL.Infrastructure;
 using BLL.Interfaces;
@@ -12,23 +13,28 @@ namespace BLL.Services
 {
     public class Service : IService<BllTask>
     {
-        private ITaskRepository repository;
-        private IActionRepository actionsRepository;
+        private readonly ITaskRepository repository;
+        private IActionRepository actionRepository;
 
         public Service() : this(new TaskRepository(), new ActionRepository())
         {
         }
 
-        public Service(ITaskRepository repository, IActionRepository actionsRepository)
+        public Service(ITaskRepository repository, IActionRepository actionRepository)
         {
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
+            if (actionRepository == null) throw new ArgumentNullException(nameof(actionRepository));
+
             this.repository = repository;
-            this.actionsRepository = actionsRepository;
+            this.actionRepository = actionRepository;
 
             Task.Run(() => Worker.Instance.Run());
         }
 
         public BllTask Add(BllTask item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             var result = repository.Create(item);
             Worker.AddWork(new AddTask(result, repository));
 
@@ -48,6 +54,8 @@ namespace BLL.Services
 
         public void Update(BllTask item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
             repository.Update(item);
             Worker.AddWork(new UpdateTask(item, repository));
         }

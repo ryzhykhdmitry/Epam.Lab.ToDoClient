@@ -34,7 +34,7 @@ namespace BLL.Services
         /// </summary>
         private static string DeleteUrl = "ToDos/{0}";
 
-        private readonly static HttpClient httpClient;
+        private static readonly HttpClient httpClient;
 
         /// <summary>
         /// Creates the service.

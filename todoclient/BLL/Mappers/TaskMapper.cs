@@ -17,9 +17,9 @@ namespace BLL.Mappers
             };
         }
 
-        public static ORM.Task GetORMEntity(this BllTask bllEntity)
+        public static ORM.Task GetOrmEntity(this BllTask bllEntity)
         {
-            return new ORM.Task()
+            return new ORM.Task
             {
                 Id = bllEntity.Id,
                 ToDoId = bllEntity.ToDoId,

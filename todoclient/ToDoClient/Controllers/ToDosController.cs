@@ -4,6 +4,8 @@ using BLL.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using BLL.Concrete;
+using BLL.Interfaces.Repository;
 using todoclient.Infrastructure.Mappers;
 using todoclient.Models;
 using ToDoClient.Services;
@@ -15,7 +17,10 @@ namespace ToDoClient.Controllers
     /// </summary>
     public class ToDosController : ApiController
     {
-        private readonly IService<BllTask> todoService = new Service();
+        private static readonly ITaskRepository taskRepo = new TaskRepository();
+        private static readonly IActionRepository actionRepository = new ActionRepository();
+
+        private readonly IService<BllTask> todoService = new Service(taskRepo, actionRepository);
         private readonly UserService userService = new UserService();
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using BLL.Interfaces;
+﻿using System;
+using BLL.Interfaces;
 using BLL.Interfaces.DTO;
 using BLL.Interfaces.Repository;
 using BLL.Services;
@@ -12,6 +13,9 @@ namespace BLL.Actions
 
         public DeleteTask(BllTask item, ITaskRepository repository)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (repository == null) throw new ArgumentNullException(nameof(repository));
+
             this.item = item;
             this.repository = repository;
         }
