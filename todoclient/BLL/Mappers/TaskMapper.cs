@@ -1,10 +1,4 @@
-﻿using ORM;
-using BLL.Interfaces.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BLL.Interfaces.DTO;
 
 namespace BLL.Mappers
 {
@@ -18,7 +12,8 @@ namespace BLL.Mappers
                 ToDoId = ormEntity.ToDoId,
                 UserId = ormEntity.UserId,
                 IsCompleted = ormEntity.IsCompleted,
-                Name = ormEntity.Name
+                Name = ormEntity.Name,
+                IsDeleted = ormEntity.IsDeleted
             };
         }
 
@@ -30,7 +25,8 @@ namespace BLL.Mappers
                 ToDoId = bllEntity.ToDoId,
                 UserId = bllEntity.UserId,
                 IsCompleted = bllEntity.IsCompleted,
-                Name = bllEntity.Name
+                Name = bllEntity.Name,
+                IsDeleted = bllEntity.IsDeleted
             };
         }
     }

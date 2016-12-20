@@ -18,9 +18,11 @@ namespace BLL.Actions
 
         public void Execute()
         {
-            ToDoService.DeleteItem(item.ToDoId ?? 0);
+            var result = repository.GetById(item.Id);
 
-            repository.Delete(item.Id);
+            ToDoService.DeleteItem(result.ToDoId ?? 0);
+
+            repository.Delete(result.Id);
         }
     }
 }

@@ -17,8 +17,8 @@
                 return $http.delete("/api/ToDos/" + id);
             },
 
-            updateItem: function (id, item) {
-                return $http.put("/api/ToDos/" + id, item);
+            updateItem: function (item) {
+                return $http.put("/api/ToDos", item);
             }
         };
     }]);

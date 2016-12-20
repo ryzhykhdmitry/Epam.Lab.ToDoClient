@@ -5,44 +5,52 @@ using BLL.Interfaces;
 using BLL.Interfaces.DTO;
 using BLL.Interfaces.Repository;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
     public class Service : IService<BllTask>
     {
-        private readonly ITaskRepository repository;
-        private readonly IRepository<BllTask> actionsRepository;
+        private static ITaskRepository repository;
+        private static IRepository<BllTask> actionsRepository;
 
-        public Service()
+        public Service() : this(new TaskRepository(), default(IRepository<BllTask>))
         {
-            repository = new TaskRepository();
-            actionsRepository = default(IRepository<BllTask>);
         }
 
         public Service(ITaskRepository repository, IRepository<BllTask> actionsRepository)
         {
-            this.repository = repository;
-            this.actionsRepository = actionsRepository;
+            Service.repository = repository;
+            Service.actionsRepository = actionsRepository;
+
+            Task.Run(() => Worker.Instance.Run());
         }
 
-        public void Add(BllTask item)
+        public BllTask Add(BllTask item)
         {
-            repository.Create(item);
-            Worker.AddWork(new AddTask(item, repository));
+            var result = repository.Create(item);
+            Worker.AddWork(new AddTask(result, repository));
+
+            return result;
         }
 
         public void Delete(int id)
         {
             var item = repository.GetById(id);
+
+            item.IsDeleted = true;
+
+            repository.Update(item);
+
             Worker.AddWork(new DeleteTask(item, repository));
         }
 
         public void Update(BllTask item)
         {
-            var currItem = repository.GetById(item.Id);
-            Worker.AddWork(new UpdateTask(currItem, repository));
+            Worker.AddWork(new UpdateTask(item, repository));
         }
-        
+
         public IEnumerable<BllTask> GetAll()
         {
             return repository.GetAll();
@@ -55,7 +63,9 @@ namespace BLL.Services
 
         public IEnumerable<BllTask> GetByUserId(int userId)
         {
-            return repository.GetAllByUserId(userId);
+            var result = repository.GetAllByUserId(userId).Where(t => !t.IsDeleted);
+
+            return result;
         }
     }
 }

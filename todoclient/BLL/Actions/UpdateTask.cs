@@ -18,7 +18,14 @@ namespace BLL.Actions
 
         public void Execute()
         {
-            ToDoService.UpdateItem(item);
+            var result = repository.GetById(item.Id);
+
+            result.IsCompleted = item.IsCompleted;
+            result.Name = item.Name;
+            
+            result = repository.Update(result);
+
+            ToDoService.UpdateItem(result);
         }
     }
 }

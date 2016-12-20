@@ -17,6 +17,6 @@ namespace BLL.Interfaces.Repository
 
         void Delete(int id);
 
-        void Update(TEntity entity);
+        TEntity Update(TEntity entity);
     }
 }

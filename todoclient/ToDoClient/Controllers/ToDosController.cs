@@ -25,7 +25,7 @@ namespace ToDoClient.Controllers
         public IList<TaskViewModel> Get()
         {
             var userId = userService.GetOrCreateUser();
-            return todoService.GetByUserId(userId).Select(t=>t.GetTaskViewEntity()).ToList();
+            return todoService.GetByUserId(userId).Select(t => t.GetTaskViewEntity()).ToList();
         }
 
         /// <summary>
@@ -34,6 +34,9 @@ namespace ToDoClient.Controllers
         /// <param name="todo">The todo-item to update.</param>
         public void Put(TaskViewModel todo)
         {
+            if (todo == null)
+                return;
+
             todo.UserId = userService.GetOrCreateUser();
             todoService.Update(todo.GetBllEntity());
         }
@@ -51,10 +54,10 @@ namespace ToDoClient.Controllers
         /// Creates a new todo-item.
         /// </summary>
         /// <param name="todo">The todo-item to create.</param>
-        public void Post(TaskViewModel todo)
+        public TaskViewModel Post(TaskViewModel todo)
         {
             todo.UserId = userService.GetOrCreateUser();
-            todoService.Add(todo.GetBllEntity());
+            return todoService.Add(todo.GetBllEntity()).GetTaskViewEntity();
         }
     }
 }

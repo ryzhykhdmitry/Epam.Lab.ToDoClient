@@ -68,7 +68,7 @@ namespace BLL.Concrete
             return task.GetBllEntity();
         }
 
-        public void Update(BllTask entity)
+        public BllTask Update(BllTask entity)
         {
             var task = context.Set<ORM.Task>().Where(a => a.Id == entity.Id).FirstOrDefault();
 
@@ -76,8 +76,11 @@ namespace BLL.Concrete
             if (entity.ToDoId != null) task.ToDoId = entity.ToDoId;
             task.IsCompleted = entity.IsCompleted;
             if (entity.Name != null) task.Name = entity.Name;
+            task.IsDeleted = entity.IsDeleted;
             
             context.SaveChanges();
+
+            return task.GetBllEntity();
         }
     }
 }

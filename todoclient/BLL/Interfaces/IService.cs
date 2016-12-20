@@ -5,7 +5,7 @@ namespace BLL.Interfaces
 {
     public interface IService<T> where T:IEntity
     {
-        void Add(BllTask item);
+        BllTask Add(BllTask item);
 
         void Delete(int id);
 

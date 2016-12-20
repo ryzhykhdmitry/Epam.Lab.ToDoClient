@@ -33,7 +33,7 @@
                 <ul class="list-unstyled" ng-repeat="todo in items track by $index">
                     <li class="ui-state-default">
                         <label class="checkbox">
-                            <input type="checkbox" ng-model="todo.isCompleted" ng-change="" />
+                            <input type="checkbox" ng-model="todo.isCompleted" ng-change="updateItem(todo)" />
                         </label>
                         {{todo.name}}
                         <button class="remove-item btn btn-default btn-xs pull-right" ng-click="removeItem($index, todo)">
