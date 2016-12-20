@@ -1,19 +1,21 @@
-﻿using BLL.Interfaces;
+﻿using System.Collections.Generic;
+using BLL.Interfaces;
 using System.Threading;
 
 namespace BLL.Infrastructure
 {
     public class Worker
     {
-        private static QueueTasks Queue { get; set; }
+        private static Queue<ITaskAction> queue;
 
-        private static readonly ReaderWriterLockSlim lockSlim = new ReaderWriterLockSlim();
+        private static ReaderWriterLockSlim lockSlim;
 
         public static Worker Instance { get; }
 
         private Worker()
         {
-            Queue = QueueTasks.Instance;
+            queue = new Queue<ITaskAction>();
+            lockSlim = new ReaderWriterLockSlim();
         }
 
         static Worker()
@@ -21,25 +23,38 @@ namespace BLL.Infrastructure
             Instance = new Worker();
         }
 
-        public static void AddWork(ITaskAction action) => Queue.Enqueue(action);
+        public static void AddWork(ITaskAction action)
+        {
+            lockSlim.EnterWriteLock();
+            try
+            {
+                queue.Enqueue(action);
+            }
+            finally
+            {
+                lockSlim.ExitWriteLock();
+            }
+        }
 
         public void Run()
         {
             while (true)
             {
+                if (queue.Count == 0) continue;
+
+                ITaskAction task;
+
                 lockSlim.EnterWriteLock();
                 try
                 {
-                    if (!Queue.IsEmpty())
-                    {
-                        var task = Queue.Dequeue();
-                        task.Execute();
-                    }
+                    task = queue.Dequeue();
                 }
                 finally
                 {
                     lockSlim.ExitWriteLock();
                 }
+
+                task?.Execute();
             }
         }
     }
