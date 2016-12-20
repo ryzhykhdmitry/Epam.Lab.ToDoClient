@@ -36,10 +36,10 @@ namespace BLL.Concrete
 
         public void Delete(int id)
         {
-            var article = context.Set<ORM.Task>().Where(a => a.Id == id).FirstOrDefault();
-            if (article != null)
+            var task = context.Set<ORM.Task>().Where(a => a.Id == id).FirstOrDefault();
+            if (task != null)
             {
-                context.Set<ORM.Task>().Remove(article);
+                context.Set<ORM.Task>().Remove(task);
             }
             context.SaveChanges();
         }

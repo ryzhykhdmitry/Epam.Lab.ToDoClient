@@ -49,11 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\ActionRepository.cs" />
     <Compile Include="Concrete\TaskRepository.cs" />
+    <Compile Include="Interfaces\DTO\BllAction.cs" />
+    <Compile Include="Interfaces\DTO\BllActionName.cs" />
     <Compile Include="Interfaces\DTO\BllTask.cs" />
     <Compile Include="Interfaces\DTO\IEntity.cs" />
+    <Compile Include="Interfaces\Repository\IActionRepository.cs" />
     <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Interfaces\Repository\ITaskRepository.cs" />
+    <Compile Include="Mappers\ActionMapper.cs" />
     <Compile Include="Mappers\TaskMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
