@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Concrete\ActionRepository.cs" />
     <Compile Include="Actions\AddTask.cs" />
     <Compile Include="Actions\DeleteTask.cs" />
     <Compile Include="Actions\UpdateTask.cs" />
@@ -81,11 +82,15 @@
     <Compile Include="Infrastructure\QueueTask.cs" />
     <Compile Include="Infrastructure\Worker.cs" />
     <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Interfaces\DTO\BllAction.cs" />
+    <Compile Include="Interfaces\DTO\BllActionName.cs" />
     <Compile Include="Interfaces\DTO\BllTask.cs" />
     <Compile Include="Interfaces\DTO\IEntity.cs" />
     <Compile Include="Interfaces\ITaskAction.cs" />
+    <Compile Include="Interfaces\Repository\IActionRepository.cs" />
     <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Interfaces\Repository\ITaskRepository.cs" />
+    <Compile Include="Mappers\ActionMapper.cs" />
     <Compile Include="Mappers\TaskMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Service.cs" />

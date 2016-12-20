@@ -17,7 +17,8 @@ namespace todoclient.Infrastructure.Mappers
                 ToDoId = viewEntity.ToDoId,
                 UserId = viewEntity.UserId,
                 IsCompleted = viewEntity.IsCompleted,
-                Name = viewEntity.Name
+                Name = viewEntity.Name,
+                IsDeleted = viewEntity.IsDeleted
             };
         }
 
@@ -29,7 +30,8 @@ namespace todoclient.Infrastructure.Mappers
                 ToDoId = bllEntity.ToDoId,
                 UserId = bllEntity.UserId,
                 IsCompleted = bllEntity.IsCompleted,
-                Name = bllEntity.Name
+                Name = bllEntity.Name,
+                IsDeleted = bllEntity.IsDeleted
             };
         }
     }

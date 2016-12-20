@@ -16,5 +16,7 @@ namespace todoclient.Models
         public bool IsCompleted { get; set; }
 
         public string Name { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

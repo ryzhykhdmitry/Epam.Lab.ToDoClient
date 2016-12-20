@@ -6,19 +6,10 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces.DTO
 {
-    public class BllTask : IEntity 
+    public class BllActionName : IEntity
     {
         public int Id { get; set; }
-
-        public int? ToDoId { get; set; }
-
-        public int UserId { get; set; }
-
-        public bool IsCompleted { get; set; }
-        
-        public string Name { get; set; }
-
-        public bool IsDeleted { get; set; }
+        public string ActionName1 { get; set; }
 
         public virtual ICollection<BllAction> Actions { get; set; }
     }
