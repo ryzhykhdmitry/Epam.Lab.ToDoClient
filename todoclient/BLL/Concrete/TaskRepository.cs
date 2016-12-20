@@ -27,10 +27,11 @@ namespace BLL.Concrete
             this.context = dbContext;
         }
 
-        public void Create(BllTask e)
+        public BllTask Create(BllTask e)
         {
-            context.Set<ORM.Task>().Add(e.GetORMEntity());
+            var result = context.Set<ORM.Task>().Add(e.GetORMEntity());
             context.SaveChanges();
+            return result.GetBllEntity();
         }
 
         public void Delete(int id)
